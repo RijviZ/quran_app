@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:quran_sharif/data/ayatData.dart';
 import 'package:quran_sharif/backend/userData.dart';
 
 import 'package:quran_sharif/data.dart';
+import 'package:quran_sharif/data/ayat_datasource.dart';
 import 'data.dart';
 
 import 'package:quran_sharif/bodyDetails.dart';
@@ -30,11 +32,29 @@ class _StartPageState extends State<StartPage> {
 
   double _value = 12;
   double _bvalue = 12;
+  List<Ayat> _ayat = [];
+  List<String> _tafsir = [];
 
   @override
   void initState() {
     initialization();
     initial();
+    Future(() async {
+      AyatDataSourceImpl.loadAyats().then((ayat) {
+        setState(() {
+          _ayat = ayat;
+        });
+      });
+
+    });
+    Future(() async {
+      AyatDataSourceImpl.loadTafsir().then((tafsir) {
+        setState(() {
+          _tafsir = tafsir;
+        });
+      });
+
+    });
     super.initState();
   }
 
@@ -139,8 +159,8 @@ class _StartPageState extends State<StartPage> {
                 });
               },
               children: [
-                for (int x = 0; x < Tafsir.fateha.length; x++)
-                  BodyDetails(data: Tafsir.fateha[x], bvalue: _bvalue,value: _value, pagePosition: _pos,),
+                for (int x = 0; x < _ayat.length; x++)
+                  BodyDetails(data: _ayat[x],tafsir: _tafsir[x], bvalue: _bvalue,value: _value, pagePosition: _pos,),
               ])),
     );
   }
