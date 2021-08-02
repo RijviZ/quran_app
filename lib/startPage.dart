@@ -176,7 +176,6 @@ class _StartPageState extends State<StartPage> {
       controller.jumpToPage(lastPageIndex);
     }
 
-    print(lastPageIndex); // TODO: implement initState
     surah = Tafsir.fateha[lastPageIndex]['appbartitle'];
     setState(() {});
   }

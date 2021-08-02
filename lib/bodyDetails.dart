@@ -39,13 +39,14 @@ class _BodyDetailsState extends State<BodyDetails> {
 
   String text='';
 
-
+  late List<String> parts ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    int idx = widget.tafsir.indexOf("\n\n");
+    parts = [widget.tafsir.substring(0,idx).trim(), widget.tafsir.substring(idx+1).trim()];
   }
 
   @override
@@ -177,7 +178,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Text(this.widget.data.text!,
+                    Text(parts[0],
                         textAlign: TextAlign.justify,
                         style: GoogleFonts.hindSiliguri(
                             textStyle: TextStyle(
@@ -207,7 +208,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Text(this.widget.tafsir,
+                    Text(parts[1],
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontSize: widget.bvalue)),
                     SizedBox(height: 70),
