@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_sharif/data/ayatData.dart';
 import 'package:quran_sharif/backend/userData.dart';
-import 'package:quran_sharif/data/ayat_datasource.dart';
 
 class BodyDetails extends StatefulWidget {
   final Ayat data;
@@ -45,8 +44,12 @@ class _BodyDetailsState extends State<BodyDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    int idx = widget.tafsir.indexOf("\n\n");
-    parts = [widget.tafsir.substring(0,idx).trim(), widget.tafsir.substring(idx+1).trim()];
+    if(widget.tafsir.contains('\n\n')){
+      int idx = widget.tafsir.indexOf("\n\n");
+      parts = [widget.tafsir.substring(0,idx).trim(), widget.tafsir.substring(idx+1).trim()];
+    }else{
+      parts = [widget.tafsir, widget.tafsir];
+    }
   }
 
   @override

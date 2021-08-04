@@ -151,10 +151,11 @@ class _StartPageState extends State<StartPage> {
               scrollDirection: Axis.horizontal,
               controller: controller,
               onPageChanged: (i) {
+                print(i);
                 setState(() {
                   _pos = i;
 
-                  surah = Tafsir.fateha[i]['appbartitle'];
+                  //surah = Tafsir.fateha[i]['appbartitle'];
                   UserData().updateLastPageIndex(i: i);
                 });
               },
