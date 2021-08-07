@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/ayats_bn.json
+    - assets/data/arabic.json
     - assets/data/tafsir.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

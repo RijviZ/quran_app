@@ -7,6 +7,7 @@ class UserData{
 
 
     await userData.put('lastPageIndex', i);
+    print(await getLastPageIndex());
 
   }
   Future<dynamic> getLastPageIndex() async{

@@ -77,7 +77,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                   alignment: Alignment.center,
                   children: [
                     Text(
-                      widget.data.sura!,
+                      widget.data.surahNumber.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
@@ -150,7 +150,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                         child: Column(
                           children: [
                             Text(
-                              this.widget.data.aya!,
+                              this.widget.data.content,
                               style: TextStyle(
                                   fontSize: widget.value,
                                   fontFamily: 'uthmani'),

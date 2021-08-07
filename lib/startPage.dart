@@ -5,6 +5,7 @@ import 'package:quran_sharif/backend/userData.dart';
 
 import 'package:quran_sharif/data.dart';
 import 'package:quran_sharif/data/ayat_datasource.dart';
+import 'package:quran_sharif/snData.dart';
 import 'data.dart';
 
 import 'package:quran_sharif/bodyDetails.dart';
@@ -16,7 +17,15 @@ class StartPage extends StatefulWidget {
   final int lastIndex;
   final bool? fromSettings;
 
-  const StartPage({Key? key, required this.lastIndex, this.fromSettings})
+  final List<Ayat>? ayat;
+  final List<String>? tafsir;
+
+  const StartPage(
+      {Key? key,
+      required this.lastIndex,
+      this.fromSettings,
+      this.ayat,
+      this.tafsir})
       : super(key: key);
   @override
   _StartPageState createState() => _StartPageState();
@@ -28,7 +37,6 @@ class _StartPageState extends State<StartPage> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   String surah = '';
-  PageController controller = PageController(initialPage: 0);
 
   double _value = 12;
   double _bvalue = 12;
@@ -37,32 +45,20 @@ class _StartPageState extends State<StartPage> {
 
   @override
   void initState() {
-    initialization();
     initial();
-    Future(() async {
-      AyatDataSourceImpl.loadAyats().then((ayat) {
-        setState(() {
-          _ayat = ayat;
-        });
-      });
 
-    });
-    Future(() async {
-      AyatDataSourceImpl.loadTafsir().then((tafsir) {
-        setState(() {
-          _tafsir = tafsir;
-        });
-      });
-
-    });
     super.initState();
   }
 
   initial() async {
-    _value=await UserData().getArabicFontSize();
-    _bvalue=await UserData().getBanglaFontSize();
-
-
+    _value = await UserData().getArabicFontSize();
+    _bvalue = await UserData().getBanglaFontSize();
+    _ayat = widget.ayat!;
+    _tafsir = widget.tafsir!;
+    _pos = widget.lastIndex;
+    print(_pos);
+    surah =
+        SnData.allshanenujuls[_ayat[widget.lastIndex].surahNumber - 1]['title'];
     setState(() {});
   }
 
@@ -147,38 +143,30 @@ class _StartPageState extends State<StartPage> {
       drawer: DrawerSlider(),
       body: SafeArea(
           bottom: true,
-          child: PageView(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              onPageChanged: (i) {
-                print(i);
-                setState(() {
-                  _pos = i;
-
-                  //surah = Tafsir.fateha[i]['appbartitle'];
-                  UserData().updateLastPageIndex(i: i);
-                });
-              },
-              children: [
-                for (int x = 0; x < _ayat.length; x++)
-                  BodyDetails(data: _ayat[x],tafsir: _tafsir[x], bvalue: _bvalue,value: _value, pagePosition: _pos,),
-              ])),
+          child: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            controller: PageController(initialPage: widget.lastIndex, keepPage: true, viewportFraction: 1),
+            onPageChanged: (i) {
+              setState(() {
+                _pos = i;
+                surah =
+                    SnData.allshanenujuls[_ayat[i].surahNumber - 1]['title'];
+                print('Pos: $i');
+                //surah = Tafsir.fateha[i]['appbartitle'];
+                UserData().updateLastPageIndex(i: i);
+              });
+            },
+            itemCount: _ayat.length,
+            itemBuilder: (BuildContext context, int item) {
+              return BodyDetails(
+                data: _ayat[item],
+                tafsir: _tafsir[item],
+                bvalue: _bvalue,
+                value: _value,
+                pagePosition: _pos,
+              );
+            },
+          )),
     );
   }
-
-  void initialization() async {
-
-    var lastPageIndex = await UserData().getLastPageIndex();
-
-    if (widget.fromSettings == null) {
-      controller.animateToPage(lastPageIndex,
-          duration: Duration(milliseconds: 1000), curve: Curves.easeInCubic);
-    } else {
-      controller.jumpToPage(lastPageIndex);
-    }
-
-    surah = Tafsir.fateha[lastPageIndex]['appbartitle'];
-    setState(() {});
-  }
 }
-

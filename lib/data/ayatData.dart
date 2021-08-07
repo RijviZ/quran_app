@@ -4,35 +4,30 @@
 
 import 'dart:convert';
 
-List<Ayat> ayatFromJson(String str) =>
-    List<Ayat>.from(json.decode(str).map((x) => Ayat.fromJson(x)));
+List<Ayat> ayatFromJson(String str) => List<Ayat>.from(json.decode(str).map((x) => Ayat.fromJson(x)));
 
-String ayatToJson(List<Ayat> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String ayatToJson(List<Ayat> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Ayat {
-  String? id;
-  String? sura;
-  String? aya;
-  String? text;
   Ayat({
-    this.id,
-    this.sura,
-    this.aya,
-    this.text,
+   required this.surahNumber,
+   required this.verseNumber,
+   required this.content,
   });
 
+  int surahNumber;
+  int verseNumber;
+  String content;
+
   factory Ayat.fromJson(Map<String, dynamic> json) => Ayat(
-        id: json["id"],
-        sura: json["sura"],
-        aya: json["aya"],
-        text: json["text"],
-      );
+    surahNumber: json["surah_number"],
+    verseNumber: json["verse_number"],
+    content: json["content"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "sura": sura,
-        "aya": aya,
-        "text": text,
-      };
+    "surah_number": surahNumber,
+    "verse_number": verseNumber,
+    "content": content,
+  };
 }
