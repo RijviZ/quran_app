@@ -34,8 +34,8 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   initial() async {
-    _bvalue = await UserData().getBanglaFontSize() ?? 12;
-    _value = await UserData().getArabicFontSize() ?? 12;
+    _bvalue = await UserData().getBanglaFontSize() ?? 20;
+    _value = await UserData().getArabicFontSize() ?? 20;
     setState(() {});
   }
 
@@ -69,7 +69,7 @@ class _SettingPageState extends State<SettingPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.grey
+                      ? Colors.black
                       : Colors.white,
                 ),
               ),
@@ -371,10 +371,9 @@ class _SettingPageState extends State<SettingPage> {
   setTheme(b) async {
     var themeBox = await Hive.openBox('themeBox');
     await themeBox.put('darkMode', b);
-
     isDarkMode = !isDarkMode;
     await MyApp.of(context)!
-        .changeTheme(isDarkMode ? ThemeMode.dark : ThemeMode.light);
+        .changeTheme(b ? ThemeMode.dark : ThemeMode.light);
     setState(() {});
   }
 

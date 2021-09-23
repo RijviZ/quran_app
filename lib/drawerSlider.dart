@@ -2,18 +2,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quran_sharif/data/ayatData.dart';
 import 'package:quran_sharif/hadisList.dart';
 import 'package:quran_sharif/favouritePage.dart';
 import 'package:quran_sharif/shaneNujulList.dart';
 import 'package:quran_sharif/snData.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:app_review/app_review.dart';
 
+class DrawerSlider extends StatefulWidget {
+  final List<Ayat> ayat;
+  final List<String> tafsir;
 
-class DrawerSlider extends StatelessWidget {
+  final double value;
+  final double bvalue;
+
+  const DrawerSlider(
+      {Key? key,
+       required this.ayat,
+       required this.tafsir,required this.value,required this.bvalue})
+      : super(key: key);
+  @override
+  _DrawerSliderState createState() => _DrawerSliderState();
+}
+
+class _DrawerSliderState extends State<DrawerSlider> {
   final String upFrame = 'assets/images/up_frame.svg';
+
   final String downFrame = 'assets/images/down_frame.svg';
+
   final String fontDown = 'assets/images/font_down.svg';
 
   List<Map<String,dynamic>> alllist = [
@@ -47,8 +64,6 @@ class DrawerSlider extends StatelessWidget {
     },
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -70,7 +85,7 @@ class DrawerSlider extends StatelessWidget {
                 children: [
                   Center(
                       child: Text(
-                    "কোরআন মাজীদ",
+                    "ওয়ান কোরআন",
                     style: TextStyle(
                       fontFamily: "sirajee",
                       fontSize: 30,
@@ -119,7 +134,7 @@ class DrawerSlider extends StatelessWidget {
                   Text(
                   '❤',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 30,
                       color: Theme.of(context).brightness == Brightness.light
                           ? Colors.grey.shade700
                           : Colors.white,)
@@ -130,7 +145,7 @@ class DrawerSlider extends StatelessWidget {
                     Text(
                       'প্রিয় পৃষ্ঠা সমূহ',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           fontFamily: "Nikosh",
                           color:
                               Theme.of(context).brightness == Brightness.light
@@ -145,7 +160,7 @@ class DrawerSlider extends StatelessWidget {
               // Then close the drawer
 
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FavoritePage()));
+                  MaterialPageRoute(builder: (context) => FavoritePage(ayat: widget.ayat,tafsir: widget.tafsir,bvalue: widget.bvalue,value: widget.value,)));
             },
           ),
           ListTile(
@@ -156,7 +171,7 @@ class DrawerSlider extends StatelessWidget {
                   Text(
                   '🕋',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).brightness == Brightness.light
                           ? Colors.grey.shade700
@@ -168,7 +183,7 @@ class DrawerSlider extends StatelessWidget {
                     Text(
                       'শানে নুযূল',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           fontFamily: "Nikosh",
                           color:
                               Theme.of(context).brightness == Brightness.light
@@ -193,7 +208,7 @@ class DrawerSlider extends StatelessWidget {
                     Text(
                         '📚',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.grey.shade700
@@ -205,7 +220,7 @@ class DrawerSlider extends StatelessWidget {
                     Text(
                       '৪০টি গুরুত্বপূর্ণ হাদিস',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           fontFamily: "Nikosh",
                           color:
                           Theme.of(context).brightness == Brightness.light
@@ -218,7 +233,7 @@ class DrawerSlider extends StatelessWidget {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HadisList()));;
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>HadisList()));
             },
           ),
           Container(
@@ -260,7 +275,7 @@ class DrawerSlider extends StatelessWidget {
           SizedBox(height: 30),
           Center(
               child: Text("App Version: 1.0.0",
-                  style: TextStyle(color: Colors.grey.withOpacity(0.8)))),
+                  style: TextStyle(color: Colors.grey.withOpacity(0.8), fontSize: 20),)),
           SvgPicture.asset(
             fontDown,
             width: 200,
@@ -294,7 +309,7 @@ class DrawerList extends StatelessWidget {
           Text(
             this.text,
             style: TextStyle(
-                fontSize: 12,fontWeight: FontWeight.w500,
+                fontSize: 18,fontWeight: FontWeight.w500,
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.grey
                     : Colors.white70),

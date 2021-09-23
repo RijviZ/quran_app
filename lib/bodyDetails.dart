@@ -6,19 +6,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_sharif/data/ayatData.dart';
 import 'package:quran_sharif/backend/userData.dart';
+import 'package:quran_sharif/utility/convert_number.dart';
 
 class BodyDetails extends StatefulWidget {
   final Ayat data;
   final String tafsir;
   final double value;
   final double bvalue;
-  final int pagePosition;
+  final int? pagePosition;
   BodyDetails(
       {required this.data,
       required this.tafsir,
       required this.value,
       required this.bvalue,
-      required this.pagePosition});
+       this.pagePosition});
 
   @override
   _BodyDetailsState createState() => _BodyDetailsState();
@@ -36,18 +37,22 @@ class _BodyDetailsState extends State<BodyDetails> {
 
   bool _showButton = false;
 
-  String text='';
+  String text = '';
 
-  late List<String> parts ;
+  late List<String> parts;
+  ConvertNumber convertNumber = ConvertNumber();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.tafsir.contains('\n\n')){
+    if (widget.tafsir.contains('\n\n')) {
       int idx = widget.tafsir.indexOf("\n\n");
-      parts = [widget.tafsir.substring(0,idx).trim(), widget.tafsir.substring(idx+1).trim()];
-    }else{
+      parts = [
+        widget.tafsir.substring(0, idx).trim(),
+        widget.tafsir.substring(idx + 1).trim()
+      ];
+    } else {
       parts = [widget.tafsir, widget.tafsir];
     }
   }
@@ -76,12 +81,37 @@ class _BodyDetailsState extends State<BodyDetails> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Text(
-                      widget.data.surahNumber.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "সূরাঃ " +
+                               convertNumber.convertNumber(widget.data.sura) +
+                              ", আয়াতঃ " +
+                              convertNumber.convertNumber(widget.data.aya) +
+                              "\n" +
+                              widget.data.type +
+                              " অবতীর্ণ" +
+                              "\nপৃষ্ঠাঃ " +
+                              convertNumber.convertNumber(widget.data.page) +
+                              ", পারাঃ " +
+                              convertNumber.convertNumber(widget.data.juzz),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Nikosh',
+                          ),
+                        ),
+                        if (widget.data.sajdah != null)
+                          Text(
+                            "*সিজদাহর আয়াত*",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.red,
+                              fontFamily: 'Nikosh',
+                            ),
+                          ),
+                      ],
                     ),
                     Container(
                       height: 200,
@@ -150,7 +180,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                         child: Column(
                           children: [
                             Text(
-                              this.widget.data.content,
+                              this.widget.data.text,
                               style: TextStyle(
                                   fontSize: widget.value,
                                   fontFamily: 'uthmani'),
@@ -228,7 +258,7 @@ class _BodyDetailsState extends State<BodyDetails> {
             ],
           ),
         ),
-        floatingActionButton: _showButton
+        floatingActionButton: _showButton && widget.pagePosition!=null
             ? FutureBuilder(
                 future: UserData().getCheckPage(),
                 builder:
@@ -249,9 +279,9 @@ class _BodyDetailsState extends State<BodyDetails> {
                       onPressed: () {
                         setState(() {
                           if (!_checkPage.contains(widget.pagePosition)) {
-                            UserData().updateCheckPage(i: widget.pagePosition);
+                            UserData().updateCheckPage(i: widget.pagePosition!);
                           } else {
-                            UserData().removeCheckPage(i: widget.pagePosition);
+                            UserData().removeCheckPage(i: widget.pagePosition!);
                           }
                         });
                       },

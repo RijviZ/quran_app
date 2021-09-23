@@ -1,75 +1,61 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-class UserData{
-
+class UserData {
   updateLastPageIndex({required int i}) async {
     var userData = await Hive.openBox('userData');
-
-
     await userData.put('lastPageIndex', i);
-    print(await getLastPageIndex());
-
   }
-  Future<dynamic> getLastPageIndex() async{
+
+  Future<dynamic> getLastPageIndex() async {
     var userData = await Hive.openBox('userData');
-    var lastPageIndex=await userData.get('lastPageIndex');
-    if(lastPageIndex==null){
-      lastPageIndex=0;
+    var lastPageIndex = await userData.get('lastPageIndex');
+    if (lastPageIndex == null) {
+      lastPageIndex = 0;
     }
 
     return lastPageIndex;
   }
 
- addCompletedPos({required int i}) async {
+  addCompletedPos({required int i}) async {
     var userData = await Hive.openBox('userData');
-    var completed=await userData.get('completed');
-    if(completed==null){
+    var completed = await userData.get('completed');
+    if (completed == null) {
       await userData.put('completed', []);
-      completed=[];
-
+      completed = [];
     }
     completed.add(i);
     await userData.put('completed', completed);
   }
- removeCompletedPos({required int i}) async {
-   var userData = await Hive.openBox('userData');
-   var completed=await userData.get('completed');
-   if(completed==null){
-     await userData.put('completed', []);
-     completed=[];
 
-   }
-   completed.remove(i);
-   await userData.put('completed', completed);
- }
- Future<dynamic>  getCompletedPos() async {
-  var userData = await Hive.openBox('userData');
-  var completed=await userData.get('completed');
-  print(completed);
-  if(completed==null){
-    await userData.put('completed', []);
-
-    return [];
-
-  }else{
-    return completed;
+  removeCompletedPos({required int i}) async {
+    var userData = await Hive.openBox('userData');
+    var completed = await userData.get('completed');
+    if (completed == null) {
+      await userData.put('completed', []);
+      completed = [];
+    }
+    completed.remove(i);
+    await userData.put('completed', completed);
   }
 
-
-}
-
+  Future<dynamic> getCompletedPos() async {
+    var userData = await Hive.openBox('userData');
+    var completed = await userData.get('completed');
+    if (completed == null) {
+      await userData.put('completed', []);
+      completed = [];
+    }
+    return completed;
+  }
 
   Future<dynamic> updateArabicFontSize({required double i}) async {
     var userData = await Hive.openBox('userData');
     await userData.put('fontSizeArabic', i);
   }
+
   Future<dynamic> getArabicFontSize() async {
     var userData = await Hive.openBox('userData');
-    var fontSize =  await userData.get('fontSizeArabic');
-    if(fontSize==null){
-      await userData.put('fontSizeArabic', 12);
-      fontSize=12;
-    }
+    double fontSize = await userData.get('fontSizeArabic') ?? 20.0;
     return fontSize;
   }
 
@@ -77,40 +63,34 @@ class UserData{
     var userData = await Hive.openBox('userData');
     await userData.put('fontSizeBangla', i);
   }
+
   Future<dynamic> getBanglaFontSize() async {
     var userData = await Hive.openBox('userData');
-    double fontSize =  await userData.get('fontSizeBangla');
-    if(fontSize==null){
-      await userData.put('fontSizeBangla', 12);
-      fontSize=12;
-    }
+    double fontSize = await userData.get('fontSizeBangla') ?? 20.0;
     return fontSize;
   }
 
   removeCheckPage({required int i}) async {
     var userData = await Hive.openBox('userData');
-    var checkPage=await userData.get('checkPage');
+    var checkPage = await userData.get('checkPage');
 
     checkPage.remove(i);
     await userData.put('checkPage', checkPage);
   }
+
   Future<dynamic> updateCheckPage({required int i}) async {
     var userData = await Hive.openBox('userData');
     List checkPage = userData.get('checkPage');
-
-
-      checkPage.add(i);
-
+    checkPage.add(i);
     await userData.put('checkPage', checkPage);
   }
+
   Future<dynamic> getCheckPage() async {
-
     var userData = await Hive.openBox('userData');
-    var checkPage =  await userData.get('checkPage');
-    if(checkPage==null){
+    var checkPage = await userData.get('checkPage');
+    if (checkPage == null) {
       await userData.put('checkPage', []);
-      checkPage=[];
-
+      checkPage = [];
     }
     return checkPage;
   }

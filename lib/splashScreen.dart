@@ -19,6 +19,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
    late int lastPageIndex =0;
+   double aValue = 20.0;
+   double bValue = 20.0;
 
    List<Ayat> _ayat = [];
    List<String> _tafsir = [];
@@ -42,7 +44,18 @@ class _SplashScreenState extends State<SplashScreen> {
           _tafsir = tafsir;
         });
       });
-
+    });
+    Future(() async {
+      AyatDataSourceImpl.loadAya().then((tafsir) {
+        List<int> ayats = [];
+        for(int i=0; i<tafsir.length;i++){
+          ayats.add(int.parse(tafsir[i].ayas!));
+        }
+        print(ayats);
+        print(ayats.length);
+        setState(() {
+        });
+      });
     });
     //gotoStartPage();
   }
@@ -53,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ? Colors.white.withOpacity(0.95)
           : Colors.white.withOpacity(0.18),
       splash: 'assets/images/al_quran.png',splashIconSize:220,
-      nextScreen: StartPage(lastIndex: lastPageIndex, ayat: _ayat,tafsir: _tafsir,),
+      nextScreen: StartPage(lastIndex: lastPageIndex, ayat: _ayat,tafsir: _tafsir,aValue: aValue,bValue: bValue,),
       splashTransition: SplashTransition.scaleTransition,
     );
   }
@@ -75,9 +88,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   lastPageIndex = await UserData().getLastPageIndex();
+  aValue = await UserData().getArabicFontSize();
+  bValue = await UserData().getBanglaFontSize();
 setState(() {
 
   print(lastPageIndex);
+  print(aValue);
+  print(bValue);
 });
   }
 }

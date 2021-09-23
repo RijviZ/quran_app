@@ -10,24 +10,44 @@ String ayatToJson(List<Ayat> data) => json.encode(List<dynamic>.from(data.map((x
 
 class Ayat {
   Ayat({
-   required this.surahNumber,
-   required this.verseNumber,
-   required this.content,
+   required this.sura,
+   required this.aya,
+   required this.text,
+   required this.juzz,
+   required this.page,
+   required this.sajdah,
+   required this.type,
+   required this.name,
   });
 
-  int surahNumber;
-  int verseNumber;
-  String content;
+  int sura;
+  int aya;
+  String text;
+  int juzz;
+  int page;
+  dynamic sajdah;
+  String type;
+  String name;
 
   factory Ayat.fromJson(Map<String, dynamic> json) => Ayat(
-    surahNumber: json["surah_number"],
-    verseNumber: json["verse_number"],
-    content: json["content"],
+    sura: json["sura"],
+    aya: json["aya"],
+    text: json["text"],
+    juzz: json["juzz"],
+    page: json["page"],
+    sajdah: json["sajdah"] == null ? null : json["sajdah"],
+    type: json["type"],
+    name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
-    "surah_number": surahNumber,
-    "verse_number": verseNumber,
-    "content": content,
+    "sura": sura,
+    "aya": aya,
+    "text": text,
+    "juzz": juzz,
+    "page": page,
+    "sajdah": sajdah == null ? null : sajdah,
+    "type": type,
+    "name": name,
   };
 }

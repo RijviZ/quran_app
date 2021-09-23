@@ -35,7 +35,8 @@ dependencies:
   share: ^2.0.4
   url_launcher: ^6.0.9
   app_review: ^2.1.1+1
-
+  http: ^0.13.3
+  numberpicker: ^2.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -68,7 +69,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/ayats_bn.json
-    - assets/data/arabic.json
+    - assets/data/arabic_ayat.json
     - assets/data/tafsir.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
