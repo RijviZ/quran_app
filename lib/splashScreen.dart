@@ -25,38 +25,39 @@ class _SplashScreenState extends State<SplashScreen> {
    List<Ayat> _ayat = [];
    List<String> _tafsir = [];
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-    getTheme();
+  Future<void> initial() async {
     Future(() async {
-      AyatDataSourceImpl.loadAyats().then((ayat) {
+     await AyatDataSourceImpl.loadAyats().then((ayat) {
         setState(() {
           _ayat = ayat;
         });
       });
-
     });
     Future(() async {
-      AyatDataSourceImpl.loadTafsir().then((tafsir) {
+     await AyatDataSourceImpl.loadTafsir().then((tafsir) {
         setState(() {
           _tafsir = tafsir;
         });
       });
     });
     Future(() async {
-      AyatDataSourceImpl.loadAya().then((tafsir) {
+     await AyatDataSourceImpl.loadAya().then((tafsir) {
         List<int> ayats = [];
         for(int i=0; i<tafsir.length;i++){
           ayats.add(int.parse(tafsir[i].ayas!));
         }
-        print(ayats);
-        print(ayats.length);
         setState(() {
         });
       });
     });
+  }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+    getTheme();
+
     //gotoStartPage();
   }
   @override
@@ -65,6 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Theme.of(context).brightness == Brightness.light
           ? Colors.white.withOpacity(0.95)
           : Colors.white.withOpacity(0.18),
+      duration: 5000,
       splash: 'assets/images/al_quran.png',splashIconSize:220,
       nextScreen: StartPage(lastIndex: lastPageIndex, ayat: _ayat,tafsir: _tafsir,aValue: aValue,bValue: bValue,),
       splashTransition: SplashTransition.scaleTransition,

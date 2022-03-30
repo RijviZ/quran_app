@@ -26,7 +26,9 @@ class StartPage extends StatefulWidget {
       required this.lastIndex,
       this.fromSettings,
       this.ayat,
-      this.tafsir, required this.aValue,required this.bValue})
+      this.tafsir,
+      required this.aValue,
+      required this.bValue})
       : super(key: key);
   @override
   _StartPageState createState() => _StartPageState();
@@ -47,29 +49,148 @@ class _StartPageState extends State<StartPage> {
   double _bvalue = 15;
   List<Ayat> _ayat = [];
   List<String> _tafsir = [];
-  List<int> totalAyatList = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6];
+  List<int> totalAyatList = [
+    7,
+    286,
+    200,
+    176,
+    120,
+    165,
+    206,
+    75,
+    129,
+    109,
+    123,
+    111,
+    43,
+    52,
+    99,
+    128,
+    111,
+    110,
+    98,
+    135,
+    112,
+    78,
+    118,
+    64,
+    77,
+    227,
+    93,
+    88,
+    69,
+    60,
+    34,
+    30,
+    73,
+    54,
+    45,
+    83,
+    182,
+    88,
+    75,
+    85,
+    54,
+    53,
+    89,
+    59,
+    37,
+    35,
+    38,
+    29,
+    18,
+    45,
+    60,
+    49,
+    62,
+    55,
+    78,
+    96,
+    29,
+    22,
+    24,
+    13,
+    14,
+    11,
+    11,
+    18,
+    12,
+    12,
+    30,
+    52,
+    52,
+    44,
+    28,
+    28,
+    20,
+    56,
+    40,
+    31,
+    50,
+    40,
+    46,
+    42,
+    29,
+    19,
+    36,
+    25,
+    22,
+    17,
+    19,
+    26,
+    30,
+    20,
+    15,
+    21,
+    11,
+    8,
+    8,
+    19,
+    5,
+    8,
+    8,
+    11,
+    11,
+    8,
+    3,
+    9,
+    5,
+    4,
+    7,
+    3,
+    6,
+    3,
+    5,
+    4,
+    5,
+    6
+  ];
   PageController _pageController = PageController();
 
   @override
   void initState() {
-    _pageController= PageController(initialPage: widget.lastIndex, keepPage: true, viewportFraction: 1);
+    _pageController = PageController(
+        initialPage: widget.lastIndex, keepPage: true, viewportFraction: 1);
     initial();
-    for(int i =0;i<totalAyatList.length;i++){
-      _totalValue = _totalValue+totalAyatList[i];
+    for (int i = 0; i < totalAyatList.length; i++) {
+      _totalValue = _totalValue + totalAyatList[i];
     }
+    print('yyyyy');
     print(_totalValue);
     super.initState();
   }
 
   initial() async {
-    _value =  widget.aValue;
+    _value = widget.aValue;
     _bvalue = widget.bValue;
     _ayat = widget.ayat!;
     _tafsir = widget.tafsir!;
+    print('zzzzzz');
+    print(widget.ayat!);
+    print(_tafsir.length);
     _pos = widget.lastIndex;
     print(_pos);
-    surah =
-        SnData.allshanenujuls[_ayat[widget.lastIndex].sura - 1]['title'];
+    surah = SnData.allshanenujuls[_ayat[widget.lastIndex].sura - 1]['title'];
     setState(() {});
   }
 
@@ -108,110 +229,129 @@ class _StartPageState extends State<StartPage> {
                 color: Colors.grey,
               ),
               onPressed: () async {
-               await showDialog<void>(
+                await showDialog<void>(
                   context: context,
                   barrierDismissible: false,
                   builder: (BuildContext context) {
-                    return StatefulBuilder(
-                        builder: (context, setState) {
-                          return AlertDialog(
-                            title: Text('দ্রুত আয়াত খুঁজুন!'),
-                            content: Container(
-                              width: 300,
-                              child: Row(
+                    return StatefulBuilder(builder: (context, setState) {
+                      return AlertDialog(
+                        title: Text('দ্রুত আয়াত খুঁজুন!'),
+                        content: Container(
+                          width: 300,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Column(
                                 mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('সূরাঃ'),
-                                      Container(
-                                        height: 120,
-                                        width: 165,
-                                        child: CupertinoPicker.builder(
-                                            squeeze: 1.5,
-                                            diameterRatio: 1,
-                                            useMagnifier: true,
-                                            scrollController: new FixedExtentScrollController(
-                                              initialItem: 0,
-                                            ),
-                                            itemExtent: 33.0,
-                                            backgroundColor: Colors.transparent,
-                                            onSelectedItemChanged: (int index) {
-                                              setState(() {
-                                                _currentValue = index+1;
-                                                _aya=1;
-                                              });
-                                            },
-                                            childCount: totalAyatList.length,
-                                            itemBuilder: (context, index) {
-                                              return Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    '${index+1}. ',
-                                                    style: TextStyle(fontSize: 16, color: Theme.of(context).brightness == Brightness.light
-                                                        ? Colors.black54
-                                                        : Colors.white,),
-                                                  ),
-                                                  Text(
-                                                    '${SnData.allshanenujuls[index]['title']}',
-                                                    style: TextStyle(fontSize: 16, color: Theme.of(context).brightness == Brightness.light
-                                                        ? Colors.black54
-                                                        : Colors.white,),
-                                                  ),
-                                                ],
-                                              );
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('আয়াতঃ'),
-                                      NumberPicker(
-                                        value: _aya,
-                                        itemWidth: 50,
-                                        itemHeight: 40,
-                                        minValue: 1,
-                                        maxValue: totalAyatList[_currentValue-1],
-                                        onChanged: (value) => setState(() => _aya = value),
-                                      ),
-                                    ],
+                                children: [
+                                  Text('সূরাঃ'),
+                                  Container(
+                                    height: 120,
+                                    width: 165,
+                                    child: CupertinoPicker.builder(
+                                        squeeze: 1.5,
+                                        diameterRatio: 1,
+                                        useMagnifier: true,
+                                        scrollController:
+                                            new FixedExtentScrollController(
+                                          initialItem: 0,
+                                        ),
+                                        itemExtent: 33.0,
+                                        backgroundColor: Colors.transparent,
+                                        onSelectedItemChanged: (int index) {
+                                          setState(() {
+                                            _currentValue = index + 1;
+                                            _aya = 1;
+                                          });
+                                        },
+                                        childCount: totalAyatList.length,
+                                        itemBuilder: (context, index) {
+                                          return Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                '${index + 1}. ',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                              .brightness ==
+                                                          Brightness.light
+                                                      ? Colors.black54
+                                                      : Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${SnData.allshanenujuls[index]['title']}',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                              .brightness ==
+                                                          Brightness.light
+                                                      ? Colors.black54
+                                                      : Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }),
                                   ),
                                 ],
                               ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Go', style: TextStyle(fontSize: 16, color: Theme.of(context).brightness == Brightness.light
-                                    ? Colors.black54
-                                    : Colors.white,),),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('আয়াতঃ'),
+                                  NumberPicker(
+                                    value: _aya,
+                                    itemWidth: 50,
+                                    itemHeight: 40,
+                                    minValue: 1,
+                                    maxValue: totalAyatList[_currentValue - 1],
+                                    onChanged: (value) =>
+                                        setState(() => _aya = value),
+                                  ),
+                                ],
                               ),
                             ],
-                          );
-                        }
-                    );
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text(
+                              'Go',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.black54
+                                    : Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
                   },
                 ).then((value) {
                   _totalNumberOfAyats = 0;
-                  for(int i= 0; i<_currentValue-1;i++){
-                    _totalNumberOfAyats = totalAyatList[i]+_totalNumberOfAyats;
+                  for (int i = 0; i < _currentValue - 1; i++) {
+                    _totalNumberOfAyats =
+                        totalAyatList[i] + _totalNumberOfAyats;
                   }
-                  _totalNumberOfAyats = _totalNumberOfAyats+_aya-1;
+                  _totalNumberOfAyats = _totalNumberOfAyats + _aya - 1;
                   _pos = _totalNumberOfAyats;
-                  surah = SnData.allshanenujuls[_ayat[_totalNumberOfAyats].sura- 1]['title'];
+                  surah =
+                      SnData.allshanenujuls[_ayat[_totalNumberOfAyats].sura - 1]
+                          ['title'];
                   UserData().updateLastPageIndex(i: _totalNumberOfAyats);
                   _pageController.animateToPage(_totalNumberOfAyats,
                       duration: Duration(milliseconds: 400),
-                      curve: Curves.easeIn
-                  );
+                      curve: Curves.easeIn);
                   print(_totalNumberOfAyats);
-               });
+                });
               },
             ),
             FutureBuilder(
@@ -262,33 +402,38 @@ class _StartPageState extends State<StartPage> {
           ],
         ),
       ),
-      drawer: DrawerSlider(ayat: _ayat,tafsir: _tafsir,bvalue: _bvalue,value: _value,),
+      drawer: DrawerSlider(
+        ayat: _ayat,
+        tafsir: _tafsir,
+        bvalue: _bvalue,
+        value: _value,
+      ),
       body: SafeArea(
-          bottom: true,
-          child: PageView.builder(
-            scrollDirection: Axis.horizontal,
-            controller: _pageController,
-            onPageChanged: (i) {
-              setState(() {
-                _pos = i;
-                surah =
-                    SnData.allshanenujuls[_ayat[i].sura- 1]['title'];
-                print('Pos: $i');
-                //surah = Tafsir.fateha[i]['appbartitle'];
-                UserData().updateLastPageIndex(i: i);
-              });
-            },
-            itemCount: _ayat.length,
-            itemBuilder: (BuildContext context, int item) {
-              return BodyDetails(
-                data: _ayat[item],
-                tafsir: _tafsir[item],
-                bvalue: _bvalue,
-                value: _value,
-                pagePosition: _pos,
-              );
-            },
-          ),),
+        bottom: true,
+        child: PageView.builder(
+          scrollDirection: Axis.horizontal,
+          controller: _pageController,
+          onPageChanged: (i) {
+            setState(() {
+              _pos = i;
+              surah = SnData.allshanenujuls[_ayat[i].sura - 1]['title'];
+              print('Pos: $i');
+              //surah = Tafsir.fateha[i]['appbartitle'];
+              UserData().updateLastPageIndex(i: i);
+            });
+          },
+          itemCount: _ayat.length,
+          itemBuilder: (BuildContext context, int item) {
+            return BodyDetails(
+              data: _ayat[item],
+              tafsir: _tafsir[item],
+              bvalue: _bvalue,
+              value: _value,
+              pagePosition: _pos,
+            );
+          },
+        ),
+      ),
     );
   }
 }

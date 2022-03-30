@@ -19,7 +19,7 @@ class BodyDetails extends StatefulWidget {
       required this.tafsir,
       required this.value,
       required this.bvalue,
-       this.pagePosition});
+      this.pagePosition});
 
   @override
   _BodyDetailsState createState() => _BodyDetailsState();
@@ -85,7 +85,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                       children: [
                         Text(
                           "সূরাঃ " +
-                               convertNumber.convertNumber(widget.data.sura) +
+                              convertNumber.convertNumber(widget.data.sura) +
                               ", আয়াতঃ " +
                               convertNumber.convertNumber(widget.data.aya) +
                               "\n" +
@@ -97,11 +97,11 @@ class _BodyDetailsState extends State<BodyDetails> {
                               convertNumber.convertNumber(widget.data.juzz),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 45,
                             fontFamily: 'Nikosh',
                           ),
                         ),
-                        if (widget.data.sajdah != null)
+                        if (widget.data.sajdah == null)
                           Text(
                             "*সিজদাহর আয়াত*",
                             textAlign: TextAlign.center,
@@ -114,7 +114,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                       ],
                     ),
                     Container(
-                      height: 200,
+                      height: 300,
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -123,7 +123,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                                 Theme.of(context).brightness == Brightness.light
                                     ? Colors.black54
                                     : Colors.white60,
-                            height: 188,
+                            height: 288,
                           ),
                           Expanded(
                             child: Column(
@@ -159,7 +159,7 @@ class _BodyDetailsState extends State<BodyDetails> {
                                       Brightness.light
                                   ? Colors.black54
                                   : Colors.white60,
-                              height: 188,
+                              height: 288,
                             ),
                           ),
                         ],
@@ -258,7 +258,7 @@ class _BodyDetailsState extends State<BodyDetails> {
             ],
           ),
         ),
-        floatingActionButton: _showButton && widget.pagePosition!=null
+        floatingActionButton: _showButton && widget.pagePosition != null
             ? FutureBuilder(
                 future: UserData().getCheckPage(),
                 builder:

@@ -36,9 +36,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +50,6 @@ class _MyAppState extends State<MyApp> {
     debugShowCheckedModeBanner: false,
     );
   }
-
-
 
   changeTheme(ThemeMode themeMode) {
 
